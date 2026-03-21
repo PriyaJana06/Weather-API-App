@@ -91,7 +91,6 @@ body::before{
 
 /* SECTION: WEATHER INFO  */
 .weather-info {
-    /* border: solid ; */
     display: flex;
     flex-direction: column;
 }
@@ -145,7 +144,6 @@ body::before{
 
 .forecast-items-container::-webkit-scrollbar {
     height: 8px;
-    /* display: none; */
 }
 .forecast-items-container::-webkit-scrollbar-track {
     background: rgb(0, 0, 0, 0.1);
@@ -158,7 +156,6 @@ body::before{
 }
 
 .forecast-item {
-    /* border: solid; */
     min-width: 70px;
     background: rgb(255, 255, 255, 0.1);
     display: flex;
@@ -179,3 +176,25 @@ body::before{
     height: 35px;
 }
 /* END SECTION: WEATHER INFO  */
+
+/* SECTION: MESSAGE */
+.section-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    margin-top: 25%;
+}
+.section-message img {
+    height: 180px;
+    width: fit-content;
+    
+}
+.section-message h1 {
+    font-size: 20px;
+}
+.regular-txt {
+    font-size: 15px;
+}
+/* END SECTION: MESSAGE */
