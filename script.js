@@ -33,10 +33,19 @@ cityInput.addEventListener('keydown', (e) => {
 });
 
 async function getFetchData(endPoint, city){
+try {
     const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`;
 
     const response = await fetch(apiUrl);
-    return response.json()
+
+    if(!response.ok){
+        throw new Error("Network response failed");
+    }
+    return await response.json();
+}
+catch(error){
+    console.error("Fetch error: ", error);
+}
 }
 
 function getWeatherIcon(id) {
@@ -62,8 +71,8 @@ function getCurrentDate(){
 }
 
 async function updateWeatherInfo(city) {
-
-    const weatherData = await getFetchData('weather', city);
+try {
+    const weatherData = await getFetchData('weather', city.trim());
 
     // if city not found display -> message not found
     if(weatherData.cod != 200) {
@@ -90,21 +99,36 @@ async function updateWeatherInfo(city) {
     weatherSummaryImg.src = `assets/weather/${getWeatherIcon(id)}`;
 
     await updateForecastsInfo(city);
+
     showDisplaySection(weatherInfoSection);
 
+}
+    catch(error){
+        console.error("Weather API error:", error);
+        showDisplaySection(notfoundSection);
+    }
+}
+
     async function updateForecastsInfo(city){
+    try {
         const forecastsData = await getFetchData('forecast', city);
         const timeTaken = '12:00:00';
         const todayDate = new Date().toISOString().split('T')[0];
 
-        // forecastItemsContainer.innerHTML = ''
+        forecastItemsContainer.innerHTML = ''
+
         forecastsData.list.forEach(forecastWeather => {
-            if(forecastWeather.dt-txt.includes(timeTaken) && !forecastWeather.dt-txt.includes(todayDate)){
-                updateForecastsItems(forecastWeather)
+
+            if(forecastWeather.dt_txt.includes(timeTaken) && 
+            !forecastWeather.dt_txt.includes(todayDate)){
+                updateForecastItems(forecastWeather)
             }
             
         })
     
+    }
+    catch(error){
+        console.error("Forecast API error:", error);
     }
 }
 
@@ -116,15 +140,23 @@ function updateForecastItems(weatherData){
         main: { temp }
     } = weatherData;
 
+    const dateTaken = new Date(date)
+    const dateOption = {
+        day: '2-digit',
+        month: 'short',
+    }
+
+    const dateResult = dateTaken.toLocaleDateString('en-US', dateOption)
+
     const forecastItem = `
         <div class="forecast-item">
-            <h5 class="forecast-item-date regular-txt">13 Mar</h5>
+            <h5 class="forecast-item-date regular-txt">${dateResult}</h5>
             <img src="assets/weather/${getWeatherIcon(id)}" class="forecast-item-img">
             <h5 class="forecast-item-temp">${Math.round(temp)} °C</h5>
         </div>
     `
 
-    forecastItemsContainer.insertAdjacentElement('beforeend', forecastItem);
+    forecastItemsContainer.insertAdjacentHTML('beforeend', forecastItem);
 }
 
 function showDisplaySection(activeSection){
