@@ -45,6 +45,7 @@ try {
 }
 catch(error){
     console.error("Fetch error: ", error);
+    return null;
 }
 }
 
@@ -57,6 +58,7 @@ function getWeatherIcon(id) {
     if(id >= 701 && id <= 781) return "atmosphere.svg";
     if(id === 800) return "clear.svg";
     if(id >= 801 && id <= 804) return "clouds.svg";
+    return "clouds.svg";
 
 }
 
@@ -112,6 +114,9 @@ try {
     async function updateForecastsInfo(city){
     try {
         const forecastsData = await getFetchData('forecast', city);
+        if(!forecastsData){
+            return;
+        }
         const timeTaken = '12:00:00';
         const todayDate = new Date().toISOString().split('T')[0];
 

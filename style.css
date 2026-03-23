@@ -38,9 +38,9 @@ body::before{
 /* END UTILITIES */
 
 .main-container{
-    border: solid blur();
-    width: 300px;
-    height: 450px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 320px;
+    min-height: 450px;
     z-index: 1;
     background: linear-gradient(to top,
         rgb(0, 0, 0, 0.15), 
@@ -111,10 +111,12 @@ body::before{
 .weather-summary-container{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
+
 .weather-summary-img{
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
 }
 .weather-summary-info {
     text-align: end;
@@ -135,9 +137,11 @@ body::before{
 
 .forecast-items-container {
     display: flex;
+    flex-wrap: nowrap;
     gap: 15px;
     padding-top: 30px;
     padding-bottom: 12px;
+    margin-top: 10px;
     overflow-x: auto;
     overflow-y: hidden;
 }
@@ -156,12 +160,12 @@ body::before{
 }
 
 .forecast-item {
-    min-width: 70px;
+    min-width: 80px;
     background: rgb(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     gap: 6px;
-    padding: 10px;
+    padding: 12px 8px;
     align-items: center;
     border-radius: 12px;
     transition: 0.3s background;
